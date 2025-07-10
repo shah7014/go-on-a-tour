@@ -20,7 +20,7 @@ const sendErrorProd = (err, res) => {
       message: err.message,
     });
   } else {
-    // 1) Log Error for us developers
+    // 1) Log Error for us developers. this will be present on the console of our hosting service
     console.error('ERROR 🧨', err);
     // 2) send generic error message
     res.status(500).json({
