@@ -1,3 +1,4 @@
 node_modules
 logs/request-logs.txt
 config.env
+config

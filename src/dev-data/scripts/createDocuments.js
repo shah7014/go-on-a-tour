@@ -2,8 +2,7 @@ const path = require('node:path');
 const fs = require('node:fs/promises');
 
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config({ path: path.join(__dirname, '..', '..', 'config.env') });
+const config = require('config');
 
 const Tour = require('../../models/tourModel');
 
@@ -33,23 +32,24 @@ const createDocuments = async () => {
 };
 
 // DB connection
-const DB = process.env.DB.replace('<PASSWORD>', process.env.DB_PASSWORD);
+const DB = config
+  .get('database.uri')
+  .replace('<PASSWORD>', config.get('database.password'));
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then((connection) => {
-    console.log(connection.connections);
+  .then(async (connection) => {
     console.log('DB connection successful');
+    if (process.argv[2] === '--import') {
+      await createDocuments();
+    } else if (process.argv[2] === '--delete') {
+      await deleteDocuments();
+    }
+    process.exit(0);
   })
   .catch((err) => {
     console.log(err);
   });
-
-if (process.argv[2] === '--import') {
-  createDocuments();
-} else if (process.argv[2] === '--delete') {
-  deleteDocuments();
-}

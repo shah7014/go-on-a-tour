@@ -1,5 +1,6 @@
 const express = require('express');
 const tourController = require('../controllers/tourController');
+const validateNewTourRequestBody = require('../validations/validateNewTourRequestBody');
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.route('/tour-stats').get(tourController.getTourStats);
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.validateNewTour, tourController.createTour);
+  .post(validateNewTourRequestBody, tourController.createTour);
 
 router
   .route('/:tourId')
