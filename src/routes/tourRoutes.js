@@ -21,7 +21,8 @@ router.route('/tour-stats').get(tourController.getTourStats);
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(validateNewTourRequestBody, tourController.createTour);
+  .post(tourController.createTour);
+// .post(validateNewTourRequestBody, tourController.createTour);
 
 router
   .route('/:tourId')

@@ -50,10 +50,7 @@ const validateNewTourRequestBody = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        status: 'fail',
-        message: errors.array(),
-      });
+      return next(errors.array());
     }
     next();
   },
