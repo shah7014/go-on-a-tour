@@ -2,11 +2,17 @@ const express = require('express');
 const morgan = require('morgan');
 const config = require('config');
 
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('Unhandled Exception!!! 🧨 Shutting down...');
+  process.exit(1);
+});
+
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const connect = require('./utils/connect');
 const AppError = require('./utils/AppError');
-const globalErrorHandler = require('./controllers/errorController');
+const globalErrorHandler = require('./middleware/errorHandler');
 
 const PORT = config.get('port');
 
@@ -34,7 +40,15 @@ app.all('*', (req, res, next) => {
 
 app.use(globalErrorHandler);
 
-app.listen(PORT, async () => {
+const server = app.listen(PORT, async () => {
   console.log(`Server up and running on PORT ${PORT}`);
   await connect();
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log(err.name);
+  console.log('Unhandled Rejection!!! 🧨 Shutting down...');
+  server.close(() => {
+    process.exit(1);
+  });
 });

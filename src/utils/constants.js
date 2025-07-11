@@ -1,0 +1,5 @@
+const ERRORS = {
+  REQUEST_BODY_VALIDATION_ERROR: 'REQUEST_BODY_VALIDATION_ERROR',
+};
+
+module.exports = { ERRORS };

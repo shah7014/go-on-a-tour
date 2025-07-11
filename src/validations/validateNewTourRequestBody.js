@@ -1,5 +1,7 @@
 const { body, validationResult } = require('express-validator');
 
+const { ERRORS } = require('../utils/constants');
+
 const validateNewTourRequestBody = [
   body('name')
     .notEmpty()
@@ -50,7 +52,14 @@ const validateNewTourRequestBody = [
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return next(errors.array());
+      next({
+        name: ERRORS.REQUEST_BODY_VALIDATION_ERROR,
+        errors: errors.array(),
+      });
+      // return res.status(400).json({
+      //   status: 'fail',
+      //   message: errors.array(),
+      // });
     }
     next();
   },
