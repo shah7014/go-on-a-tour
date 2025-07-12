@@ -1,42 +1,15 @@
-const getAllUsers = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `its not implemented yet`,
-  });
-};
+const asyncHandler = require('../utils/asyncHandler');
+const UserService = require('../services/userService');
 
-const getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `its not implemented yet`,
+const getAllUsersHandler = asyncHandler(async (req, res, next) => {
+  const users = await UserService.getAllUsers();
+  res.status(200).json({
+    status: 'success',
+    results: users.length,
+    data: {
+      users,
+    },
   });
-};
+});
 
-const createUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `its not implemented yet`,
-  });
-};
-
-const updateUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `its not implemented yet`,
-  });
-};
-
-const deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: `its not implemented yet`,
-  });
-};
-
-module.exports = {
-  getAllUsers,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser,
-};
+module.exports = { getAllUsersHandler };

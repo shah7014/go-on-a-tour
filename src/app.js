@@ -9,6 +9,7 @@ process.on('uncaughtException', (err) => {
 });
 
 const tourRouter = require('./routes/tourRoutes');
+const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
 const connect = require('./utils/connect');
 const AppError = require('./utils/AppError');
@@ -29,6 +30,8 @@ app.get('/healthcheck', (req, res) => {
 });
 
 // ROUTER MOUNTING
+app.use('/api/v1/auth', authRouter);
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
