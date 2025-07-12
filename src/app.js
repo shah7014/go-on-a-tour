@@ -8,12 +8,17 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
+// DB connect
+const connect = require('./utils/connect');
+// Routers
 const tourRouter = require('./routes/tourRoutes');
 const authRouter = require('./routes/authRoutes');
 const userRouter = require('./routes/userRoutes');
-const connect = require('./utils/connect');
-const AppError = require('./utils/AppError');
+// Middlewares
 const globalErrorHandler = require('./middleware/errorHandler');
+const validateUser = require('./middleware/validateUser');
+// Other imports
+const AppError = require('./utils/AppError');
 
 const PORT = config.get('port');
 
@@ -31,7 +36,8 @@ app.get('/healthcheck', (req, res) => {
 
 // ROUTER MOUNTING
 app.use('/api/v1/auth', authRouter);
-
+// Token verification middleware should be added before all the protected routes
+app.use(validateUser);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 

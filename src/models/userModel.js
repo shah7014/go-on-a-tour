@@ -56,9 +56,10 @@ userSchema.pre('save', async function (next) {
 
 // Instance Method
 userSchema.methods.validatePassword = async function (candiadtePassword) {
-  console.log('USER:- ', this);
   return bcrypt.compare(candiadtePassword, this.password);
 };
+
+userSchema.methods;
 
 const UserModel = mongoose.model('User', userSchema);
 

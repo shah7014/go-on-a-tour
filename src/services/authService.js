@@ -17,16 +17,6 @@ const generateAccessToken = (payload) => {
   return accessToken;
 };
 
-const findUserByEmail = async (emailId) => {
-  //  as password is marked as { select: false } in UserSchema
-  //  we need to specify explicitly that we ened the password
-  const userQuery = UserModel.findOne({ email: emailId }).select(
-    'email +password'
-  );
-  const userFound = await userQuery;
-  return userFound;
-};
-
 const validatePassword = async (user, candiadtePassword) => {
   const isValidPassword = await user.validatePassword(candiadtePassword);
   return isValidPassword;
@@ -35,6 +25,5 @@ const validatePassword = async (user, candiadtePassword) => {
 module.exports = {
   registerUser,
   generateAccessToken,
-  findUserByEmail,
   validatePassword,
 };

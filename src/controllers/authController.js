@@ -1,5 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
 const authService = require('../services/authService');
+const userService = require('../services/userService');
 const AppError = require('../utils/AppError');
 
 const registerUserHandler = asyncHandler(async (req, res, next) => {
@@ -19,7 +20,7 @@ const registerUserHandler = asyncHandler(async (req, res, next) => {
 
 const loginUserHandler = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  const userFound = await authService.findUserByEmail(email);
+  const userFound = await userService.findUserByEmail(email);
   if (!userFound) {
     return next(new AppError('Invalid User Credentials', 401));
   }

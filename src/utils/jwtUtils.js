@@ -27,14 +27,14 @@ const verifyToken = (token, secret) => {
         return resolve({ decoded: null, isValid: false, isExpired: false });
       }
 
-      return { decoded, isValid: true, isExpired: false };
+      return resolve({ decoded, isValid: true, isExpired: false });
     });
   });
 };
 
 const verifyAccessToken = async (token) => {
   const accessTokenSecret = config.get('accessTokenSecret');
-  return verifyToken(token, secret);
+  return verifyToken(token, accessTokenSecret);
 };
 
 module.exports = { verifyAccessToken, generateAccessToken };
